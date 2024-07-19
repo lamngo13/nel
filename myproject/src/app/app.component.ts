@@ -16,5 +16,14 @@ export class AppComponent {
     console.log("init");
   }
 
+  getMessage() {
+    console.log("button pressed")
+    fetch('http://localhost:3000/hello')
+      .then(response => response.text())
+      .then(data => {
+        this.messageFromBackend = data;
+      });
+  }
+
 
 }
