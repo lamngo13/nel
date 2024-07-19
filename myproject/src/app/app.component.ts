@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -18,11 +20,24 @@ export class AppComponent {
   messageFromBackend: string = "No message yet";
   imageUrl: string = ""
   selectedFile: File | undefined;
+  imageList: File[] = [];
 
   //constructor(private http: HttpClient) { }
 
-  ngOnInit() {
+  //maybe take async out of onnit lol
+  async ngOnInit() {
     console.log("init");
+    this.getImages();
+    console.log("donzo w init")
+  }
+
+  getImages() {
+    console.log("button pressed")
+    const yeet = this.http.get('http://localhost:3000/images').subscribe((response) => {
+      console.log("response", response)
+      return response;
+    });
+    console.log("yeet", yeet)
   }
 
   constructor(private http: HttpClient) { }
@@ -37,10 +52,10 @@ export class AppComponent {
       const formData = new FormData();
       formData.append('image', this.selectedFile, this.selectedFile.name);
 
-      this.http.post<{ imageUrl: string }>('http://localhost:3000/upload', formData)
+      this.http.post<{ inImageUrl: string }>('http://localhost:3000/upload', formData)
         .subscribe(
           response => {
-            this.imageUrl = response.imageUrl;
+            this.imageUrl = response.inImageUrl;
           },
           error => {
             console.error('manual Error uploading image', error);
