@@ -10,4 +10,11 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'myproject';
+  messageFromBackend: string = "No message yet";
+
+  ngOnInit() {
+    console.log("init");
+  }
+
+
 }
