@@ -20,7 +20,7 @@ export class AppComponent {
   messageFromBackend: string = "No message yet";
   imageUrl: string = ""
   selectedFile: File | undefined;
-  imageList: File[] = [];
+  imageList: String[] = [];
 
   //constructor(private http: HttpClient) { }
 
@@ -33,11 +33,15 @@ export class AppComponent {
 
   getImages() {
     console.log("button pressed")
-    const yeet = this.http.get('http://localhost:3000/images').subscribe((response) => {
+    const yeet = this.http.get<any[]>('http://localhost:3000/images').subscribe((response) => {
+      for (let i = 0; i < response.length; i++) {
+        this.imageList.push(response[i]);
+      }
+      
       console.log("response", response)
-      return response;
     });
     console.log("yeet", yeet)
+    console.log("imageList", this.imageList)
   }
 
   constructor(private http: HttpClient) { }
