@@ -44,6 +44,10 @@ export class AppComponent {
     console.log("imageList", this.imageList)
   }
 
+  navigateToGallery() {
+    console.log("navigating to gallery")
+  }
+
   constructor(private http: HttpClient) { }
 
   onFileSelected(event: any) {
